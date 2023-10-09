@@ -1,92 +1,87 @@
-const money = +prompt('Ваш бюджет на месяц?'),
-      time = +prompt('Введите дату в формате YYYY-MM-DD');
+let money,
+  time ;
+function start(){
+  money = +prompt('Ваш бюджет на месяц?');
+  time = +prompt('Введите дату в формате YYYY-MM-DD');
 
-      let appData = {
-        budjet: money,
-        timeData: time,
-        expenses: {},
-        optionalExpenses: {},
-        income: [],
-        savings: false
+  while(isNaN(money) || money == '' || money == null){
+    money = +prompt('Ваш бюджет на месяц?', '');
+  }
+}
+start();
 
-      }
+let appData = {
+  budjet: money,
+  timeData: time,
+  expenses: {},
+  optionalExpenses: {},
+  income: [],
+  savings: true
 
+}
 
-
-
-
-
-
-for(let i = 0; i < 2; i++){
- let a = prompt('Введите обязательную статью расходов в этом месяце', ' '),
-    b = prompt('Во сколько обойдется?', ' ');
-    if((typeof(a)) === 'string' && (typeof(a) != null) && (typeof(b) != null)
-     && a != '' && b != '' && a.length < 50){
-    console.log('done');
+function chooseExpencies(){
+  for (let i = 0; i < 2; i++) {
+    let a = prompt('Введите обязательную статью расходов в этом месяце', ' '),
+      b = prompt('Во сколько обойдется?', ' ');
+    if ((typeof (a)) === 'string' && (typeof (a) != null) && (typeof (b) != null) &&
+      a != '' && b != '' && a.length < 50) {
+      console.log('done');
       appData.expenses[a] = b;
-    }else{
-      
+    } else {
+      i = i - 1;  
     }
-    
-};
-appData.moneyPerDay = appData.budjet/30;
-
-
-alert('Бір күндік бюджет' + appData.moneyPerDay);
-
-
-// функцияның ішіндегі айнымалы сыртта көрінбейді
-function fun(){
-  let num = 5;
-}
-console.log(num);
-
-
-let func = () =>{
-  return number = 6;
-}
-number = func()
-console.log(number)
-
-// функция алдын жасаған айнымалы функция ішінде өзгертуге болады
-
-let num = 10;
-function vareibled(){
-  num = 20;
-  console.log(num);
-
-}
-vareibled();
-console.log(num);
-
-
-// РЕТУРН ВЕРНЕТ ПЕРЕМЕННУЮ В ГЛОБАЛЬНУЮ
-function retVar(){
-  let num = 50;
-  return num;
+  
+  };
 }
 
-let anotherVar = retVar();
-
-console.log(anotherVar);
+chooseExpencies();
 
 
-//функйия диклорейшн можно до функций объявлять они как вар создаются в начале
 
-console.log(calc(4, 3));
-
-function calc(a,b){
-  return (a+b)
+function detectDayBudget(){
+ 
+    appData.moneyPerDay = (appData.budjet / 30).toFixed();
+    alert('Бір күндік бюджет' + appData.moneyPerDay);
+  
 }
-
-console.log(calc(4, 5));
-
-
-// функция экспрешн создаются только тогда когда код до него доходит. нельзя до функций объявлять
-let calc = function(a,b){
-  return (a+b)
+detectDayBudget();
+function detectLevel() {                                                // Расчет уровня достатка
+  if (appData.moneyPerDay < 100) {
+      console.log ("Это минимальный уровень достатка!");
+  } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
+      console.log ("Это средний уровень достатка!");
+  } else if (appData.moneyPerDay > 2000) {
+      console.log ("Это высокий уровень достатка!");
+  } else {
+      console.log ("Ошибочка...!");
+  }
 }
+detectLevel();
 
-console.log(calc(4,5));
 
-let calc = (a,b) => a+b;
+
+function checkSavings(){
+  if(appData.savings == true){
+    let save = +prompt("Какова сумма накоплений?"),
+        percent = +prompt("под какой процент?");
+    appData.monthIncome = save/100/12*percent;
+    alert("доход в месяц с вашего депозита" + appData.monthIncome);
+  }
+}
+checkSavings();
+
+function chooseOptExpenses(){
+  for( let i = 0; i < 3; i++){
+    let a = prompt("Статья необязательных расходов?", '');
+    if((typeof(a)) === 'string' && (typeof(a)) !== null && a !== ''){
+      appData.optionalExpenses[i] = a;
+    }else{
+      i = i -1;
+    }
+   
+
+  }
+}
+chooseOptExpenses();
+
